@@ -1,0 +1,23 @@
+{
+  "name": "@dylanplayer/quick",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanplayer/quick.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dylanplayer/quick/issues"
+  },
+  "homepage": "https://github.com/dylanplayer/quick#readme",
+  "bin": {
+    "quick": "./bin/index.js"
+  }
+}
