@@ -1,10 +1,10 @@
 {
   "name": "@dylanplayer/quick",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "CLI that makes development work much easier.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,9 @@
   },
   "files": [
     "bin/"
-  ]
+  ],
+  "devDependencies": {
+    "jest": "^28.1.1",
+    "ts-jest": "^28.0.4"
+  }
 }
