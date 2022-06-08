@@ -2,12 +2,15 @@
 const { clone } = require('./scripts');
 
 const argv = process.argv;
-
 const command = argv[2];
 
 if (command === 'clone') {
-  const url = argv[3];
-  clone(url);
+  try {
+    const url = argv[3];
+    clone(url);
+  } catch (error) {
+    console.log('quick: command missing repository URL');
+  }
 } else {
-  console.log("Quick command not found");
+  console.log("quick: command not found");
 }

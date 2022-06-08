@@ -19,7 +19,7 @@ module.exports = {
       console.log(`Successfully cloned ${repoName} into ${repoPath}`);
       console.log(`\ncd ${repoPath}`);
     } catch (error) {
-      console.log("");
+      console.log(`quick: error while cloning repository`)
     }
   }
 }
