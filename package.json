@@ -1,10 +1,11 @@
 {
   "name": "@dylanplayer/quick",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI that makes development work much easier.",
-  "main": "index.js",
+  "main": "./bin/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "bash ./scripts/test.sh",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,15 @@
   },
   "homepage": "https://github.com/dylanplayer/quick#readme",
   "bin": {
-    "quick": "./bin/index.js"
+    "quick": "./bin/index.ts"
   },
   "files": [
     "bin/"
   ],
   "devDependencies": {
-    "jest": "^28.1.1",
-    "ts-jest": "^28.0.4"
+    "@types/node": "^17.0.42",
+    "ts-node": "^10.8.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.3"
   }
 }

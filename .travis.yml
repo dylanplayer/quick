@@ -13,9 +13,3 @@ deploy:
   skip_cleanup: true
   on:
     branch: main
-notifications:
-  email:
-  recipients:
-    - "$EMAIL"
-  on_success: change
-  on_failure: always
