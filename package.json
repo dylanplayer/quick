@@ -1,6 +1,6 @@
 {
   "name": "@dylanplayer/quick",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "CLI that makes development work much easier.",
   "main": "./bin/index.js",
   "scripts": {
