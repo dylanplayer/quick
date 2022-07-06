@@ -1,11 +1,10 @@
 {
   "name": "@dylanplayer/quick",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "CLI that makes development work much easier.",
   "main": "./bin/index.js",
   "scripts": {
-    "test": "bash ./scripts/test.sh",
-    "build": "webpack"
+    "test": "bash ./scripts/test.sh"
   },
   "repository": {
     "type": "git",
