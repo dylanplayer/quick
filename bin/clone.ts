@@ -1,5 +1,5 @@
-const run = require('./run');
-const { URL } = require('url');
+import run from './run';
+import { URL } from 'url';
 
 const clone = (urlString:string, location='~/src/') => {
   const url = new URL(urlString);

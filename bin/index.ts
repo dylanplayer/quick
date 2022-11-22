@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const clone = require('./clone');
-const pr = require('./pr');
-const push = require('./push');
-const create = require('./create');
+import clone from './clone';
+import pr from './pr';
+import push from './push';
+import create from './create';
 
 const argv = process.argv;
 const command = argv[2];
