@@ -1,4 +1,4 @@
-import childProcess from 'child_process';
+const childProcess = require('child_process');
 
 const run = (command:string, options={}) => {
   childProcess.spawn('<cmd>', [], { shell: true, detached: true });

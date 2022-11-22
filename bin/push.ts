@@ -1,4 +1,4 @@
-import run from './run';
+const run = require('./run');
 
 const push = (message = 'quick commit') => {
   const branchName = String(run(`git symbolic-ref HEAD | cut -d"/" -f 3,4`)).replace(/(\r\n|\n|\r)/gm, '');
