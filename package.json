@@ -1,6 +1,6 @@
 {
   "name": "@dylanplayer/quick",
-  "version": "0.2.52",
+  "version": "0.2.53",
   "description": "CLI that makes git workflows faster.",
   "main": "./dist/bin/index.js",
   "scripts": {
