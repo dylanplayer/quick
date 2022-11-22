@@ -1,10 +1,11 @@
 {
   "name": "@dylanplayer/quick",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "CLI that makes development work much easier.",
-  "main": "./bin/index.js",
+  "main": "./dist/bin/index.js",
   "scripts": {
-    "test": "bash ./scripts/test.sh"
+    "test": "bash ./scripts/test.sh",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -18,10 +19,10 @@
   },
   "homepage": "https://github.com/dylanplayer/quick#readme",
   "bin": {
-    "quick": "./bin/index.ts"
+    "quick": "./dist/bin/index.js"
   },
   "files": [
-    "bin/"
+    "./dist/bin/"
   ],
   "devDependencies": {
     "@types/node": "^17.0.42",
