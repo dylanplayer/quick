@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+# typed: strict
+# frozen_string_literal: true
+
+require 'sorbet-runtime'
+
+require_relative '../lib/clone'
+require_relative '../lib/push'
+require_relative '../lib/pr'
+require_relative '../lib/create'
+
+module Quick
+  class << self
+    extend T::Sig
+
+    sig { params(url: String).void }
+    def clone(url)
+      Clone.clone_repository(url)
+    end
+
+    sig { params(message: T.nilable(String)).void }
+    def push(message = nil)
+      Push.push_changes(message)
+    end
+
+    sig { void }
+    def pr
+      PR.open_pr_page
+    end
+
+    sig { params(name: String, is_private: T::Boolean).void }
+    def create(name, is_private: false)
+      Create.create_repository(name, is_private:)
+    end
+  end
+end
+
+case ARGV[0]
+when 'clone'
+  Quick.clone(ARGV[1])
+when 'push'
+  Quick.push(ARGV[1])
+when 'pr'
+  Quick.pr
+when 'create'
+  name = ARGV[1]
+  is_private = ARGV.include?('-p')
+  Quick.create(name, is_private:)
+else
+  puts 'Unknown command'
+end
