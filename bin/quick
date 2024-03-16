@@ -3,10 +3,12 @@
 # typed: strict
 # frozen_string_literal: true
 
-require_relative '../lib/clone'
-require_relative '../lib/push'
-require_relative '../lib/pr'
-require_relative '../lib/create'
+$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+
+require 'clone'
+require 'push'
+require 'pr'
+require 'create'
 
 module Quick
   class << self
