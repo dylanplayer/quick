@@ -23,7 +23,7 @@ module Quick
     end
 
     def create(name, is_private: false)
-      Create.create_repository(name, is_private:)
+      Create.create_repository(name, is_private: is_private)
     end
 
     def help
@@ -51,7 +51,7 @@ when 'pr'
 when 'create'
   name = ARGV[1]
   is_private = ARGV.include?('-p')
-  Quick.create(name, is_private:)
+  Quick.create(name, is_private: is_private)
 when 'help'
   Quick.help
 else

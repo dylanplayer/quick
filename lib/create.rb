@@ -18,7 +18,7 @@ module Quick
         uri = URI(GITHUB_API_URL)
         request = Net::HTTP::Post.new(uri)
         request['Authorization'] = "Bearer #{token}"
-        request.body = { name:, private: is_private }.to_json
+        request.body = { name: name, private: is_private }.to_json
 
         response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
           http.request(request)
