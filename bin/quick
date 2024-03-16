@@ -3,13 +3,12 @@
 # typed: strict
 # frozen_string_literal: true
 
-lib_dir = File.expand_path('../lib', __dir__)
-$LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
-
-require 'clone'
-require 'push'
-require 'pr'
-require 'create'
+require 'open3'
+require 'uri'
+require 'open-uri'
+require 'net/http'
+require 'json'
+require 'fileutils'
 
 module Quick
   class << self
@@ -40,6 +39,113 @@ module Quick
                             Use '-p' flag for a private repository
           help            - Show this help message
       HEREDOC
+    end
+  end
+
+  class Clone
+    class << self
+      def clone_repository(url)
+        uri = URI.parse(url)
+        path_segments = uri.path.split('/')
+        github_username = path_segments[1]
+        github_reponame = path_segments[2].gsub('.git', '')
+
+        dest_dir = File.expand_path("~/src/#{github_username}/#{github_reponame}")
+
+        if Dir.exist?(dest_dir) && !Dir.empty?(dest_dir)
+          puts "Error: Destination path '#{dest_dir}' already exists and is not an empty directory."
+          return
+        end
+
+        FileUtils.mkdir_p(dest_dir)
+
+        puts "Cloning into #{dest_dir}..."
+        puts "cd '#{dest_dir}'" if system("git clone #{url} #{dest_dir}")
+      end
+    end
+  end
+
+  class Create
+    GITHUB_API_URL = 'https://api.github.com/user/repos'
+
+    class << self
+      def create_repository(name, is_private: false)
+        token = `gh auth token`.strip
+        uri = URI(GITHUB_API_URL)
+        request = Net::HTTP::Post.new(uri)
+        request['Authorization'] = "Bearer #{token}"
+        request.body = { name: name, private: is_private }.to_json
+
+        response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+          http.request(request)
+        end
+
+        if response.is_a?(Net::HTTPSuccess)
+          repo_url = JSON.parse(response.body)['clone_url']
+          Clone.clone_repository(repo_url)
+        else
+          puts "Failed to create repository: #{response.message}"
+        end
+      end
+    end
+  end
+
+  class PR
+    class << self
+      def open_pr_page
+        remote_url = `git config --get remote.origin.url`.strip
+        return if remote_url.empty?
+
+        # Get the current Git branch
+        current_branch = `git rev-parse --abbrev-ref HEAD`.strip
+        return if current_branch.empty?
+
+        uri = URI.parse(remote_url)
+        path = uri.path.chomp('.git')
+
+        # Construct the PR URL using the current branch
+        pr_url = "https://#{uri.host}#{path}/compare/main...#{current_branch}?expand=1"
+
+        open_in_browser(pr_url)
+      end
+
+      private
+
+      def open_in_browser(url)
+        case RUBY_PLATFORM
+        when /darwin/
+          system('open', url)
+        when /linux|bsd/
+          system('xdg-open', url)
+        when /mswin|mingw/
+          system('cmd', '/c', 'start', url)
+        else
+          puts "Could not open the browser automatically. Please open the following URL manually: #{url}"
+        end
+      end
+    end
+  end
+
+  class Push
+    class << self
+      def push_changes(message = nil)
+        message ||= 'Quick auto-commit'
+
+        stdout, _stderr, _status = Open3.capture3('git status --porcelain')
+        if stdout.strip.empty?
+          puts 'No changes to commit.'
+          return
+        end
+
+        current_branch = `git rev-parse --abbrev-ref HEAD`.strip
+        return if current_branch.empty?
+
+        system('git add .')
+        system('git', 'commit', '-m', message)
+
+        puts 'Pushing changes...'
+        system("git push origin #{current_branch}")
+      end
     end
   end
 end
