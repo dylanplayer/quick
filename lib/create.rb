@@ -10,14 +10,9 @@ require_relative 'clone'
 
 module Quick
   class Create
-    extend T::Sig
-
     GITHUB_API_URL = 'https://api.github.com/user/repos'
 
     class << self
-      extend T::Sig
-
-      sig { params(name: String, is_private: T::Boolean).void }
       def create_repository(name, is_private: false)
         token = `gh auth token`.strip
         uri = URI(GITHUB_API_URL)

@@ -7,9 +7,6 @@ require 'open3'
 module Quick
   class Push
     class << self
-      extend T::Sig
-
-      sig { params(message: T.nilable(String)).void }
       def push_changes(message = nil)
         message ||= 'Quick auto-commit'
 

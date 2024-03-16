@@ -6,12 +6,7 @@ require 'open-uri'
 
 module Quick
   class PR
-    extend T::Sig
-
     class << self
-      extend T::Sig
-
-      sig { void }
       def open_pr_page
         remote_url = `git config --get remote.origin.url`.strip
         return if remote_url.empty?
@@ -31,7 +26,6 @@ module Quick
 
       private
 
-      sig { params(url: String).void }
       def open_in_browser(url)
         case RUBY_PLATFORM
         when /darwin/

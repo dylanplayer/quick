@@ -25,15 +25,7 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.31.2)
       parser (>= 3.3.0.4)
-    rubocop-sorbet (0.7.8)
-      rubocop (>= 0.90.0)
     ruby-progressbar (1.13.0)
-    sorbet (0.5.11288)
-      sorbet-static (= 0.5.11288)
-    sorbet-runtime (0.5.11293)
-    sorbet-static (0.5.11288-aarch64-linux)
-    sorbet-static (0.5.11288-universal-darwin)
-    sorbet-static (0.5.11288-x86_64-linux)
     unicode-display_width (2.5.0)
 
 PLATFORMS
@@ -43,9 +35,6 @@ PLATFORMS
 
 DEPENDENCIES
   rubocop (~> 1.60)
-  rubocop-sorbet (~> 0.7)
-  sorbet (~> 0.5.11288)
-  sorbet-runtime
 
 RUBY VERSION
    ruby 3.3.0p0
