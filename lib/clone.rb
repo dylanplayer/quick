@@ -7,9 +7,6 @@ require 'uri'
 module Quick
   class Clone
     class << self
-      extend T::Sig
-
-      sig { params(url: String).void }
       def clone_repository(url)
         uri = URI.parse(url)
         path_segments = uri.path.split('/')

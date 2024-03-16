@@ -3,8 +3,6 @@
 # typed: strict
 # frozen_string_literal: true
 
-require 'sorbet-runtime'
-
 require_relative '../lib/clone'
 require_relative '../lib/push'
 require_relative '../lib/pr'
@@ -12,26 +10,33 @@ require_relative '../lib/create'
 
 module Quick
   class << self
-    extend T::Sig
-
-    sig { params(url: String).void }
     def clone(url)
       Clone.clone_repository(url)
     end
 
-    sig { params(message: T.nilable(String)).void }
     def push(message = nil)
       Push.push_changes(message)
     end
 
-    sig { void }
     def pr
       PR.open_pr_page
     end
 
-    sig { params(name: String, is_private: T::Boolean).void }
     def create(name, is_private: false)
       Create.create_repository(name, is_private:)
+    end
+
+    def help
+      puts <<~HEREDOC
+        Quick CLI - Easily manage cloned repositories
+        Commands:
+          clone [URL]     - Clone a repository into ~/src/[username]/[reponame]
+          push [MESSAGE]  - Push and commit your current changes with an optional message
+          pr              - Open a new PR page on GitHub for the current repository
+          create NAME     - Create a new GitHub repository and clone it
+                            Use '-p' flag for a private repository
+          help            - Show this help message
+      HEREDOC
     end
   end
 end
@@ -47,6 +52,9 @@ when 'create'
   name = ARGV[1]
   is_private = ARGV.include?('-p')
   Quick.create(name, is_private:)
+when 'help'
+  Quick.help
 else
-  puts 'Unknown command'
+  puts 'Unknown command. Use "quick help" for a list of available commands.'
+  Quick.help
 end
