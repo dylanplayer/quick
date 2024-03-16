@@ -1,0 +1,17 @@
+require:
+  - rubocop-sorbet
+
+AllCops:
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Sorbet/StrictSigil:
+  Enabled: true

@@ -10,11 +10,6 @@ Quick is a CLI that allows you to easily manage cloned repositories.
 
 ## Usage
 
-### Installation
-```bash
-npm i -g @dylanplayer/quick
-```
-
 ### Clone Repository
 ```bash
 quick clone https://github.com/user/example
