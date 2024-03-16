@@ -19,11 +19,14 @@ module Quick
           return
         end
 
+        current_branch = `git rev-parse --abbrev-ref HEAD`.strip
+        return if current_branch.empty?
+
         system('git add .')
         system('git', 'commit', '-m', message)
 
         puts 'Pushing changes...'
-        system('git push')
+        system("git push origin #{current_branch}")
       end
     end
   end

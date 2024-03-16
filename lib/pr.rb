@@ -16,10 +16,15 @@ module Quick
         remote_url = `git config --get remote.origin.url`.strip
         return if remote_url.empty?
 
+        # Get the current Git branch
+        current_branch = `git rev-parse --abbrev-ref HEAD`.strip
+        return if current_branch.empty?
+
         uri = URI.parse(remote_url)
         path = uri.path.chomp('.git')
 
-        pr_url = "https://#{uri.host}#{path}/compare/main?expand=1"
+        # Construct the PR URL using the current branch
+        pr_url = "https://#{uri.host}#{path}/compare/main...#{current_branch}?expand=1"
 
         open_in_browser(pr_url)
       end
@@ -34,7 +39,7 @@ module Quick
         when /linux|bsd/
           system('xdg-open', url)
         when /mswin|mingw/
-          system('start', url)
+          system('cmd', '/c', 'start', url)
         else
           puts "Could not open the browser automatically. Please open the following URL manually: #{url}"
         end
