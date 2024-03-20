@@ -8,6 +8,16 @@ Quick is a CLI that allows you to easily manage cloned repositories.
 | pr | This will open a pr | none |
 | create | This will create a Github repository and clone it to the correct directory | -p |
 
+## Quick Start
+
+```bash
+brew tap dylanplayer/devtools
+```
+
+```bash
+brew install dylanplayer/devtools/quick
+```
+
 ## Usage
 
 ### Clone Repository
