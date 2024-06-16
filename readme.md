@@ -7,6 +7,7 @@ Quick is a CLI that allows you to easily manage cloned repositories.
 | push [MESSAGE] | This will push and commit your current changes with an optional message | none |
 | pr | This will open a pr | none |
 | create | This will create a Github repository and clone it to the correct directory | -p |
+| find | Find local repositories that start with the given name and print out the cd command | none |
 
 ## Quick Start
 
