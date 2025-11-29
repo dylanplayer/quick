@@ -33,6 +33,10 @@ module Quick
       Find.find_repository(name)
     end
 
+    def cd(name)
+      Cd.change_to_repository(name)
+    end
+
     def help
       puts <<~HEREDOC
         Quick CLI - Easily manage cloned repositories
@@ -43,6 +47,7 @@ module Quick
           create NAME     - Create a new GitHub repository and clone it
                             Use '-p' flag for a private repository
           find NAME       - Find local repositories that start with the given name and print out the cd command
+          cd NAME         - Find and change to a local repository that starts with the given name
           help            - Show this help message
       HEREDOC
     end
@@ -59,14 +64,18 @@ module Quick
         dest_dir = File.expand_path("#{BASE_PATH}/#{github_username}/#{github_reponame}")
 
         if Dir.exist?(dest_dir) && !Dir.empty?(dest_dir)
-          puts "Error: Destination path '#{dest_dir}' already exists and is not an empty directory."
-          return
+          puts "Repository already exists at #{dest_dir}"
+          Dir.chdir(dest_dir)
+          exec ENV.fetch('SHELL', '/bin/zsh')
         end
 
         FileUtils.mkdir_p(dest_dir)
 
         puts "Cloning into #{dest_dir}..."
-        puts "cd '#{dest_dir}'" if system("git clone #{url} #{dest_dir}")
+        if system("git clone #{url} #{dest_dir}")
+          Dir.chdir(dest_dir)
+          exec ENV.fetch('SHELL', '/bin/zsh')
+        end
       end
     end
   end
@@ -170,6 +179,38 @@ module Quick
       end
     end
   end
+
+  class Cd
+    class << self
+      def change_to_repository(name)
+        matching_dirs = Dir.glob("#{BASE_PATH}/*/#{name}*")
+
+        if matching_dirs.empty?
+          puts "No repository found that starts with the name '#{name}'."
+        elsif matching_dirs.length == 1
+          dest_dir = matching_dirs.first
+          puts "Changing to #{dest_dir}"
+          Dir.chdir(dest_dir)
+          exec ENV.fetch('SHELL', '/bin/zsh')
+        else
+          puts "Multiple repositories found:"
+          matching_dirs.each_with_index do |dir, index|
+            puts "  #{index + 1}. #{dir}"
+          end
+          print "Select a repository (1-#{matching_dirs.length}): "
+          choice = $stdin.gets.chomp.to_i
+          if choice >= 1 && choice <= matching_dirs.length
+            dest_dir = matching_dirs[choice - 1]
+            puts "Changing to #{dest_dir}"
+            Dir.chdir(dest_dir)
+            exec ENV.fetch('SHELL', '/bin/zsh')
+          else
+            puts "Invalid selection."
+          end
+        end
+      end
+    end
+  end
 end
 
 case ARGV[0]
@@ -185,6 +226,8 @@ when 'create'
   Quick.create(name, is_private: is_private)
 when 'find'
   Quick.find(ARGV[1])
+when 'cd'
+  Quick.cd(ARGV[1])
 when 'help'
   Quick.help
 else
